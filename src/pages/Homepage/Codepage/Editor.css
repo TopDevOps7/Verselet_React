@@ -1,0 +1,7 @@
+#code-editor {
+  width: inherit !important;
+}
+.ace_gutter-layer {
+  background: #263345;
+  text: white;
+}
