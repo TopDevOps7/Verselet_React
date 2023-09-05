@@ -85,7 +85,7 @@ function App() {
         )}
         <div>
           {/* Main components */}
-          <div class="bg-gray-400">
+          <div className="bg-gray-400">
             <Footer />
           </div>
         </div>
