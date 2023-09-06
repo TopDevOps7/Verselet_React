@@ -1,12 +1,51 @@
 import React, { useState } from "react";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from "../../context/auth";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import userAuthApi from "../../context/api/userAuthApi";
+import userProfileApi from "../../context/api/userProfileApi";
 
 function Home() {
   const [showModal, setShowModal] = useState(false);
-  const {user} = useAuth();
+  const { user, token } = useAuth();  
+  const [searchName, setSearchName] = useState("");
+  const [userList, setUserList] = useState([]);
+  const navigate = useNavigate();
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await userAuthApi.getUserList({username: searchName, token});
+      const data = await response;
+      setUserList(data.data.data.usersList);
+    } catch (error) {
+      error.response.status == 401 ? navigate("/logout") : toast.error(error.response.data.message);
+    }
+  };
+
+  const sendFriendRequest = async (username) => {
+    try {      
+      const response = await userProfileApi.sendFriendRequest({friend:username, token});
+      toast.info(response.data.message);
+    } catch (error) {
+      error.response.status == 401 ? navigate("/logout") : toast.error(error.response.data.message);
+    }
+  };
+
   return (
     <div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       {/* sidenav */}
 
       {/* navbar */}
@@ -41,7 +80,7 @@ function Home() {
                       Join a game and play with friends!
                     </h2>
 
-                    <form>
+                    <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
                       <label
                         htmlFor="search"
                         className="text-sm font-medium text-gray-900 sr-only dark:text-white"
@@ -72,6 +111,8 @@ function Home() {
                           className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                           placeholder="Search"
                           required
+                          value={searchName}
+                          onChange={(event) => setSearchName(event.target.value)}                          
                         />
                         <button
                           type="submit"
@@ -81,6 +122,28 @@ function Home() {
                         </button>
                       </div>
                     </form>
+                  </div>
+                  <div className="block mt-5">
+                  {
+                    userList && userList.map((uItem) => (
+                      <div className="block w-full p-3 pl-10 text-sm border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500  dark:text-white">
+                        {uItem.username}
+                        <button
+                          className="ms-3 text-white float-right right-1.5 bottom-1.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-light rounded-lg text-sm px-3 py-1 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                        >
+                          <Link to={"/user/" + uItem.username}>
+                          View Profile
+                          </Link>
+                        </button>
+                        <button
+                          className="ms-3 text-white float-right  right-1.5 bottom-1.5 bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-light rounded-lg text-sm px-3 py-1 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-800"
+                          onClick={() => sendFriendRequest(uItem.username)} 
+                        >
+                          Send Request
+                        </button>
+                      </div>
+                    ))
+                  }
                   </div>
                 </div>
               </section>

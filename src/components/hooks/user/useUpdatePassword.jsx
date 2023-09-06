@@ -1,6 +1,7 @@
 import { useState } from "react";
 import userAuthApi from "../../../context/api/userAuthApi";
 import { useNavigate } from "react-router-dom";
+
 const useUpdatePassword = () => {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");

@@ -21,7 +21,7 @@ function Code() {
   const [language, setLanguage] = useState("python3");
   const { getOutput, data, success, error, loading } = useCompiler();
   const naviagate = useNavigate();
-
+  
   React.useEffect(() => {
     if (success) {
       console.log(data);
@@ -95,8 +95,8 @@ function Code() {
           <AceEditor
             className="w-full h-full rounded-lg bg-gray-800"
             placeholder="Enter code"
-            mode={language}
-            theme="twilight"
+            mode="javascript"
+            theme="monokai"
             name="code-editor"
             onChange={handleCodeChange}
             fontSize={14}
@@ -110,6 +110,7 @@ function Code() {
               enableSnippets: false,
               showLineNumbers: true,
               tabSize: 2,
+              editorProps: { $blockScrolling: true },
             }}
           />
         </div>

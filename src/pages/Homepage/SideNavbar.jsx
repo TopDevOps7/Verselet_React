@@ -10,12 +10,11 @@ function SideNavbar() {
   const [username, setUsername] = useState("");
   const { data, success, getData, error, loading } = useProfileData();
 
-  React.useEffect(() => {
-    if (!user) return;
+  useEffect(() => {
     getData({ username: user.username, token });
-  }, [username, token]);
+  }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (success) {
       console.log(data);
     }

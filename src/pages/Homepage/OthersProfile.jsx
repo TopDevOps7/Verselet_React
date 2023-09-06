@@ -1,33 +1,56 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { useParams } from "react-router-dom";
-import { useAuth } from "../../context/auth";
-import useProfileData from "../../components/hooks/useProfileData.jsx";
-import instance from "../../context/axios";
+import { useNavigate, useParams } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import userProfileApi from "../../context/api/userProfileApi";
 
 function OthersProfile() {
   const [userData, setUserData] = useState(null);
   const token = localStorage.getItem("verselet_token");
-  const username = "pavan"; // Replace with the username you want to fetch data for
+  const { username } = useParams();
+  const navigate = useNavigate();
+
+  const sendFriendRequest = async (friendName) => {
+    try {      
+      const response = await userProfileApi.sendFriendRequest({friend:friendName, token});
+      toast.info(response.data.message);
+    } catch (error) {
+      error.response.status == 401 ? navigate("/logout") : toast.error(error.response.data.message);
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
+
       try {
-        const response = await instance.get("api/user/get-user-data", {
-          params: { username: username },
-        });
-        const { data } = response.data;
-        setUserData(data);
+        const response = await userProfileApi.getProfileData({username, token})
+        const data = await response.data.data;
+        
+        if (response.data.status === true) {
+            setUserData(data);
+        } 
       } catch (error) {
-        console.error("Error fetching search results:", error);
+        console.log(error);
+        error.response.status == 401 ? navigate("/logout") : toast.error(error.response.data.message);
       }
     };
 
     fetchData();
-  }, [token, username]);
+  }, []);
 
   return (
     <div className="p-4 sm:ml-64 dark:bg-gray-900 mt-14">
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <section className="bg-white dark:bg-gray-900">
         <div className="max-w-2xl px-4 py-8 mx-auto lg:py-16">
           <form action="#">
@@ -46,14 +69,13 @@ function OthersProfile() {
                   htmlFor="name"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  Username
                 </label>
                 <input
                   type="text"
                   name="name"
                   id="name"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  value="verselet"
+                  value={userData && userData.username}
                   disabled
                 />
               </div>
@@ -67,7 +89,7 @@ function OthersProfile() {
 
               <div className="w-full">
                 <label
-                  htmlFor="email"
+                  htmlFor="game"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Games Played
@@ -76,13 +98,13 @@ function OthersProfile() {
                   type="text"
                   name="game"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  value="22"
+                  value={userData && userData.games}
                   disabled
                 />
               </div>
               <div className="w-full">
                 <label
-                  htmlFor="brand"
+                  htmlFor="wins"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Wins
@@ -92,7 +114,7 @@ function OthersProfile() {
                   name="wins"
                   id="wins"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  value="10"
+                  value={userData && userData.wins}
                   disabled
                 />
               </div>
@@ -108,7 +130,7 @@ function OthersProfile() {
                   name="winrate"
                   id="winrate"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  value="99%"
+                  value={userData && (userData.games ? (userData.wins * 100 / userData.games).toFixed(2)  + "%": "0%")}
                   disabled
                 />
               </div>
@@ -191,6 +213,12 @@ function OthersProfile() {
                   </a>
                 </div>
               </div>
+              <button
+                onClick={() => sendFriendRequest(userData.username)} 
+                className="text-white right-2.5 bottom-2.5 bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-800"
+              >
+                Send Friend Request
+              </button>
             </div>
           </form>
         </div>

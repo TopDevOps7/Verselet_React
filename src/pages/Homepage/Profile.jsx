@@ -11,8 +11,11 @@ function Profile() {
   React.useEffect(() => {
     if (!user) return;
     setUsername(user.username);
-    getData({ username: user.username, token });
   }, [username, token]);
+
+  React.useEffect(() => {
+    getData({ username: user.username, token });
+  }, []);
 
   React.useEffect(() => {
     if (success) {

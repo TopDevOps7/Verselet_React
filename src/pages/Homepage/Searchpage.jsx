@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import instance from "../../context/axios";
 import { useNavigate } from "react-router-dom";
-import userAuthApi from "../../context/api/userAuthApi";
 
 function Searchpage() {
   const [query, setQuery] = useState("");
@@ -17,13 +18,9 @@ function Searchpage() {
       const { data } = response.data;
       setResults(data.usersList);
     } catch (error) {
-      console.error("Error fetching search results:", error);
+      error.response.status == 401 ? navigate("/logout") : toast.error(error.response.data.message);
     }
   };
-
-  // useEffect(() => {
-  //   fetchResults();
-  // }, [query]);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -38,6 +35,17 @@ function Searchpage() {
     <div>
       {/* sidenav */}
       {/* navbar */}
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <div className="p-4 sm:ml-64 h-screen dark:bg-gray-900">
         <div className="p-4  dark:border-gray-700 mt-14">
           <div className="grid grid-rows-1 grid-flow-col gap-4">

@@ -9,6 +9,7 @@ const users = [
 ];
 
 const Leaderboard = () => {
+ 
   return (
     <div className="p-4 sm:ml-64 h-screen dark:bg-gray-900">
       <div className="p-4  dark:border-gray-700 mt-14">

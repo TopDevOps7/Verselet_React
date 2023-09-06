@@ -34,7 +34,6 @@ const useSignIn = () => {
       }
     } catch (error) {
       // Handle any other errors here
-      console.error(error);
       setError("Something went wrong. Please try again later.");
       setAuthenticated(false);
     }

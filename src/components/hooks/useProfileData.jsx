@@ -26,6 +26,7 @@ const useProfileData = () => {
             }
         } catch (error) {
             setError("Something went wrong. Please try again later.")
+            navigate("/logout");
         } finally {
             setLoading(false)
         }
