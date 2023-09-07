@@ -75,7 +75,7 @@ function Home() {
             <div>
               <section className="bg-gray-100 dark:bg-gray-800">
                 <div className="py-8 px-4 mx-auto sm:py-16 lg:px-6">
-                  <div className="mx-auto  text-center">
+                  <div className="mx-auto text-center">
                     <h2 className="mb-9 text-4xl tracking-tight font-extrabold leading-tight text-gray-900 dark:text-white">
                       Join a game and play with friends!
                     </h2>
@@ -123,28 +123,33 @@ function Home() {
                       </div>
                     </form>
                   </div>
-                  <div className="block mt-5">
                   {
-                    userList && userList.map((uItem) => (
-                      <div className="block w-full p-3 pl-10 text-sm border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500  dark:text-white">
-                        {uItem.username}
-                        <button
-                          className="ms-3 text-white float-right right-1.5 bottom-1.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-light rounded-lg text-sm px-3 py-1 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                        >
-                          <Link to={"/user/" + uItem.username}>
-                          View Profile
-                          </Link>
-                        </button>
-                        <button
-                          className="ms-3 text-white float-right  right-1.5 bottom-1.5 bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-light rounded-lg text-sm px-3 py-1 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-800"
-                          onClick={() => sendFriendRequest(uItem.username)} 
-                        >
-                          Send Request
-                        </button>
-                      </div>
-                    ))
+                    userList.length > 0 && (
+                    <div className="block mt-5">
+                      {
+                      userList.map((uItem, uIndex) => (
+                        <div key={uItem.username} className="block w-full p-3 pl-10 text-sm border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500  dark:text-white">
+                          {uItem.username}
+                          <button
+                            className="ms-3 text-white float-right right-1.5 bottom-1.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-light rounded-lg text-sm px-3 py-1 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                          >
+                            <Link to={"/user/" + uItem.username}>
+                            View Profile
+                            </Link>
+                          </button>
+                          <button
+                            className="ms-3 text-white float-right  right-1.5 bottom-1.5 bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-light rounded-lg text-sm px-3 py-1 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-800"
+                            onClick={() => sendFriendRequest(uItem.username)} 
+                          >
+                            Send Request
+                          </button>
+                        </div>
+
+                        ))
+                      }
+                    </div>
+                    )
                   }
-                  </div>
                 </div>
               </section>
             </div>

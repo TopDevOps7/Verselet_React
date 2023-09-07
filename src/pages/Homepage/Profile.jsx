@@ -1,28 +1,21 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { useAuth } from "../../context/auth";
 import useProfileData from "../../components/hooks/useProfileData.jsx";
 import { Link } from "react-router-dom";
 
 function Profile() {
   const { user, token } = useAuth();
-  const [username, setUsername] = React.useState("");
+  const [username, setUsername] = useState("");
   const { data, success, getData, error, loading } = useProfileData();
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!user) return;
     setUsername(user.username);
   }, [username, token]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     getData({ username: user.username, token });
   }, []);
-
-  React.useEffect(() => {
-    if (success) {
-      console.log(data);
-    }
-    if (error) console.log(error);
-  }, [success, data, error]);
 
   return (
     <div className="p-4 sm:ml-64 dark:bg-gray-900 mt-14">
@@ -41,27 +34,20 @@ function Profile() {
                   Personal Information
                 </h2>
                 <label
-                  htmlFor="name"
+                  htmlFor="username"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Username
                 </label>
-                {loading ? (
-                  <input
-                    type="text"
-                    className="animate-pulse bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    disabled
-                  />
-                ) : (
-                  <input
-                    type="text"
-                    name="name"
-                    id="name"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    value={data.username}
-                    disabled
-                  />
-                )}
+                <input
+                  type="text"
+                  name="username"
+                  id="username"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  value={username}
+                  readOnly
+                  disabled
+                />                
               </div>
 
               <div className="w-full">
@@ -71,46 +57,33 @@ function Profile() {
                 >
                   Email
                 </label>
-                {loading ? (
-                  <input
-                    type="text"
-                    className="animate-pulse bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    disabled
-                  />
-                ) : (
-                  <input
-                    type="email"
-                    name="email"
-                    id="email"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    value={data.email}
-                    disabled
-                  />
-                )}
+                <input
+                  type="text"
+                  name="email"
+                  id="email"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  value={data && data.email ? data.email : ""}
+                  readOnly
+                  disabled
+                />
               </div>
               <div className="w-full">
                 <label
-                  htmlFor="brand"
+                  htmlFor="birthday"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Date of Birth
                 </label>
-                {loading ? (
-                  <input
-                    type="text"
-                    className="animate-pulse bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    disabled
-                  />
-                ) : (
-                  <input
-                    type="date"
-                    name="brand"
-                    id="brand"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    value={data?.dateOfBirth ? data.dateOfBirth : "N/A"}
-                    max={new Date().toISOString().split("T")[0]}
-                  />
-                )}
+                <input
+                  type={data && data.dateOfBirth ? "date" : "text"}
+                  name="birthday"
+                  id="birthday"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  value={data && data.dateOfBirth ? data.dateOfBirth : ""}
+                  readOnly
+                  disabled
+                  max={new Date().toISOString().split("T")[0]}
+                />
               </div>
             </div>
             <div className="grid gap-4 mb-4 sm:grid-cols-2 sm:gap-6 ">
@@ -122,81 +95,61 @@ function Profile() {
 
               <div className="w-full">
                 <label
-                  htmlFor="email"
+                  htmlFor="game"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Games Played
                 </label>
-                {loading ? (
-                  <input
-                    type="text"
-                    className="animate-pulse bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    disabled
-                  />
-                ) : (
-                  <input
-                    type="text"
-                    name="game"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    value={data?.games !== undefined ? data.games : "N/A"}
-                    disabled
-                  />
-                )}
+                <input
+                  type="text"
+                  name="game"
+                  id="game"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  value={data.games !== undefined ? data.games : ""}
+                  readOnly
+                  disabled
+                />
               </div>
               <div className="w-full">
                 <label
-                  htmlFor="brand"
+                  htmlFor="wins"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Wins
                 </label>
-                {loading ? (
-                  <input
-                    type="text"
-                    className="animate-pulse bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    disabled
-                  />
-                ) : (
-                  <input
-                    type="text"
-                    name="wins"
-                    id="wins"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    value={data?.wins !== undefined ? data.wins : "N/A"}
-                    disabled
-                  />
-                )}
+                <input
+                  type="text"
+                  name="wins"
+                  id="wins"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  value={data.wins !== undefined ? data.wins : ""}
+                  readOnly
+                  disabled
+                />
               </div>
               <div className="col-span-2">
                 <label
-                  htmlFor="brand"
+                  htmlFor="winrate"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Win Percentage
                 </label>
-                {loading ? (
-                  <input
-                    type="text"
-                    className="animate-pulse bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    disabled
-                  />
-                ) : (
-                  <input
-                    type="text"
-                    name="winrate"
-                    id="winrate"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    value={
-                      data?.wins !== undefined &&
-                      data?.games !== undefined &&
-                      data?.wins !== 0 &&
-                      data?.games !== 0
-                        ? parseInt(data.wins) / parseInt(data.games) + "%"
-                        : "0%"
-                    }
-                    disabled
-                  />
-                )}
+                <input
+                  type="text"
+                  name="winrate"
+                  id="winrate"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  value={
+                    data.wins !== undefined &&
+                    data.games !== undefined &&
+                    data.wins !== 0 &&
+                    data.games !== 0
+                      ? parseInt(data.wins) / parseInt(data.games) + "%"
+                      : "0%"
+                  }
+                  readOnly
+                  disabled
+                />
               </div>
             </div>
             <div className="grid gap-4 mb-4 sm:grid-cols-2 sm:gap-6 ">
@@ -208,7 +161,7 @@ function Profile() {
               <div className="sm:flex sm:items-center sm:justify-between">
                 <div className="flex mt-4 space-x-6 sm:justify-center sm:mt-0">
                   <a
-                    href={data?.instagram ? data.instagram : "#"}
+                    href={data.instagram ? data.instagram : "#"}
                     className="text-gray-400 hover:text-gray-900 dark:hover:text-white"
                   >
                     <svg
@@ -226,7 +179,7 @@ function Profile() {
                     <span className="sr-only">Instagram page</span>
                   </a>
                   <a
-                    href={data?.twitter ? data.twitter : "#"}
+                    href={data.twitter ? data.twitter : "#"}
                     className="text-gray-400 hover:text-gray-900 dark:hover:text-white"
                   >
                     <svg
@@ -240,7 +193,7 @@ function Profile() {
                     <span className="sr-only">Twitter page</span>
                   </a>
                   <a
-                    href={data?.github ? data.github : "#"}
+                    href={data.github ? data.github : "#"}
                     className="text-gray-400 hover:text-gray-900 dark:hover:text-white"
                   >
                     <svg
@@ -258,7 +211,7 @@ function Profile() {
                     <span className="sr-only">GitHub account</span>
                   </a>
                   <a
-                    href={data?.link ? data.link : "#"}
+                    href={data.link ? data.link : "#"}
                     className="text-gray-400 hover:text-gray-900 dark:hover:text-white"
                   >
                     <svg
@@ -281,11 +234,11 @@ function Profile() {
 
             <div className="sm:col-span-2 mt-2">
               <h2 className="mb-4 text-lg font-bold text-gray-900 dark:text-white">
-                Friends List ({data?.friends?.length ? data.friends.length : 0})
+                Friends List ({data.friends && data.friends.length ? data.friends.length : 0})
               </h2>
             </div>
             <div className="flex mb-5 -space-x-3">
-              {data?.friends?.length ? (
+              {data.friends && data.friends.length ? (
                 <img
                   className="w-12 h-12 rounded-full ring-2 ring-gray-300 dark:ring-gray-100"
                   src="https://pbs.twimg.com/media/EwtHu9PVEAcetn3.jpg"

@@ -38,11 +38,10 @@ function App() {
   useEffect(() => {
     const token = localStorage.getItem("verselet_token");
     const user = localStorage.getItem("verselet_user");
-
     if (token && user) {
       setAuthenticated(true);
     }
-  }, [setAuthenticated]);
+  }, []);
 
   return (
     <Router>
@@ -73,13 +72,11 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
               <Route path="/signin" element={<Signin />} />
-              <Route
-                path="/signup"
-                element={authenticated ? <Navigate to="/" /> : <Signup />}
-              />
+              <Route path="/signup" element={<Signup />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route path="/reset-password" element={<ResetPassword />} />
-              <Route path="*" element={<NotFound />} />
+              <Route path="/logout" element={<Navigate to="/" />} />
+              <Route path="*" element={ <NotFound /> } />
             </Routes>
           </>
         )}
