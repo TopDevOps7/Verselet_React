@@ -40,7 +40,7 @@ function OthersProfile() {
   }, []);
 
   return (
-    <div className="p-4 sm:ml-64 dark:bg-gray-900 mt-14">
+    <div className="mt-14">
       <ToastContainer
         position="top-right"
         autoClose={5000}

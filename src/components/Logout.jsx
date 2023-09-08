@@ -13,8 +13,10 @@ function Logout() {
       localStorage.removeItem("verselet_token");
       localStorage.removeItem("verselet_user");
       navigate("/");
+    } else {
+      navigate("/");
     }
-  }, [authenticated]);
+  }, []);
 
   // Function to handle API request error
   const handleRequestError = (error) => {

@@ -3,7 +3,7 @@ import React from "react";
 function Footer() {
   return (
     <div>
-      <footer className="p-4 bg-gray-50 md:p-8 lg:p-10 dark:bg-gray-900 ">
+      <footer className="p-4 bg-gray-50 md:p-8 lg:p-10 dark:bg-gray-900">
         <div className="mx-auto max-w-screen-xl text-center">
           <a
             href="#"

@@ -57,7 +57,7 @@ function Code() {
     setLanguage(event.target.value);
   };
   return (
-    <div className="p-4 sm:ml-64 h-screen dark:bg-gray-900 mt-14">
+    <div className="mt-14 p-4 h-auto dark:bg-gray-900">
       <div className="grid grid-cols-3">
         <div className="col-start-1 col-span-4 pt-4">
           <label

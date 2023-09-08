@@ -2,6 +2,7 @@ import React from "react";
 import UiSVG from "../assets/svg/ui.svg";
 import LearnSVG from "../assets/svg/learn.svg";
 import CodingSVG from "../assets/svg/coding.svg";
+import Footer from "../components/Footer";
 
 function Home() {
   return (
@@ -284,6 +285,9 @@ function Home() {
           </div>
         </div>
       </section>
+      <div className="bg-gray-400">
+        <Footer />
+      </div>
     </div>
   );
 }

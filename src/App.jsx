@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, {  useEffect } from "react";
 import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
+import ProtectedRoute from "./components/Protected";
+import PublicRoute from "./components/Public";
 import {
   BrowserRouter as Router,
   Routes,
@@ -46,46 +47,32 @@ function App() {
   return (
     <Router>
       <>
-        {authenticated ? (
-          <>
-            <SideNavbar />
-            <Routes>
-              <Route path="/" element={<Homepage />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/code" element={<Code />} />
-              <Route path="/notifications" element={<Notifications />} />
-              <Route path="/settings" element={<Settings />} />
-              <Route path="/search" element={<Searchpage />} />
-              <Route path="/leaderboard" element={<Leaderboard />} />
-              <Route path="/waiting" element={<WaitingRoom />} />
-              <Route path="/game" element={<Dashboard />} />
-              <Route path="/scores" element={<FinalScore />} />
-              <Route path="/user/:username" element={<OthersProfile />} />
-              <Route path="/logout" element={<Logout />} />
-              <Route path="*" element={<Navigate to="/" />} />
-            </Routes>
-          </>
-        ) : (
-          <>
-            <Navbar />
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/signin" element={<Signin />} />
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/forgot-password" element={<ForgotPassword />} />
-              <Route path="/reset-password" element={<ResetPassword />} />
-              <Route path="/logout" element={<Navigate to="/" />} />
-              <Route path="*" element={ <NotFound /> } />
-            </Routes>
-          </>
-        )}
-        <div>
-          {/* Main components */}
-          <div className="bg-gray-400">
-            <Footer />
-          </div>
-        </div>
+        { authenticated ? ( <SideNavbar /> ) : (<Navbar />) }
+        <Routes>
+          <Route path="/" element={ authenticated ? ( <Homepage /> ) : (<Home />) } />
+          <Route element={<ProtectedRoute/>}>
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/code" element={<Code />} />
+            <Route path="/notifications" element={<Notifications />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/search" element={<Searchpage />} />
+            <Route path="/leaderboard" element={<Leaderboard />} />
+            <Route path="/waiting" element={<WaitingRoom />} />
+            <Route path="/game" element={<Dashboard />} />
+            <Route path="/scores" element={<FinalScore />} />
+            <Route path="/user/:username" element={<OthersProfile />} />
+            <Route path="/logout" element={<Logout />} />
+          </Route>
+          <Route element={<PublicRoute/>}>
+            <Route path="/signin" element={<Signin />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="/logout" element={<Navigate to="/" />} />
+          </Route>
+          <Route path="*" element={ <NotFound /> } />
+          <Route path="/about" element={<About />} />
+        </Routes>
       </>
     </Router>
   );

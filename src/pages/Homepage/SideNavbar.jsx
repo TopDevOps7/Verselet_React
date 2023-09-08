@@ -1,26 +1,38 @@
-import React from "react";
+import React, { useState, useEffect }  from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/auth";
 import Switcher from "../../components/Switcher";
 import useProfileData from "../../components/hooks/useProfileData";
-import { useState, useEffect } from "react";
 
 function SideNavbar() {
   const { user, token } = useAuth();
   const [username, setUsername] = useState("");
   const { data, success, getData, error, loading } = useProfileData();
-
+  const [protectedPages, setProtectedPages] = useState([
+                                                        "profile",
+                                                        "code",
+                                                        "notifications",
+                                                        "settings",
+                                                        "search",
+                                                        "leaderboard",
+                                                        "waiting",
+                                                        "game",
+                                                        "scores",
+                                                        "user",
+                                                        "logout",
+                                                      ]);
+  
   useEffect(() => {
     getData({ username: user.username, token });
   }, []);
-
+  
   useEffect(() => {
     if (success) {
       console.log(data);
     }
     if (error) console.log(error);
   }, [success, data, error]);
-
+  
   const handleSearch = (event) => {
     event.preventDefault();
     const searchValue = event.target.value;
@@ -28,8 +40,8 @@ function SideNavbar() {
     // You can perform any additional logic or API calls based on the search value here
   };
 
-  return (
-    <div>
+  return window.location.pathname.split("/")[1] == "" || protectedPages.includes(window.location.pathname.split("/")[1]) ? 
+    (<div>
       <nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
         <div className="px-3 py-3 lg:px-5 lg:pl-3">
           <div className="flex items-center justify-between">
@@ -303,8 +315,8 @@ function SideNavbar() {
           </ul>
         </div>
       </aside>
-    </div>
-  );
+    </div>)
+    : (<></>);
 }
 
 export default SideNavbar;

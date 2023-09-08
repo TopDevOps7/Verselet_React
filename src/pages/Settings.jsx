@@ -36,7 +36,7 @@ function Settings() {
   };
 
   return (
-    <div className="p-4 sm:ml-64 h-auto dark:bg-gray-900 mt-14">
+    <div className="mt-14">
       <section className="bg-white dark:bg-gray-900">
         <div className="max-w-2xl px-4 py-8 mx-auto lg:py-16">
           <form action="#">
