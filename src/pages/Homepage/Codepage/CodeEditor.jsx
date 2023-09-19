@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "ace-builds/src-noconflict/ace";
 import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/mode-c_cpp";
@@ -15,13 +16,15 @@ import useCompiler from "../../../components/hooks/useCompiler";
 import { useAuth } from "../../../context/auth";
 import { useNavigate } from "react-router-dom";
 
+ace.config.set('basePath', 'node_modules/ace-builds/src-noconflict/');
+
 function Code() {
   const { token } = useAuth();
   const [code, setCode] = useState("");
-  const [language, setLanguage] = useState("python3");
+  const [language, setLanguage] = useState("python");
   const { getOutput, data, success, error, loading } = useCompiler();
   const naviagate = useNavigate();
-  
+
   React.useEffect(() => {
     if (success) {
       console.log(data);
@@ -74,11 +77,11 @@ function Code() {
                 onChange={handleLanguageChange}
               >
                 <option defaultValue={"python3"}>Choose a language</option>
-                <option value="c">C</option>
-                <option value="cpp">C++</option>
-                <option value="csharp">C#</option>
-                <option value="python3">Python</option>
-                <option value="nodejs">JavaScript</option>
+                <option value="cpp">C</option>
+                <option value="c_cpp">C++</option>
+                <option value="csp">C#</option>
+                <option value="python">Python</option>
+                <option value="javascript">JavaScript</option>
               </select>
             </div>
             <div>
@@ -95,7 +98,7 @@ function Code() {
           <AceEditor
             className="w-full h-full rounded-lg bg-gray-800"
             placeholder="Enter code"
-            mode="javascript"
+            mode={language}
             theme="monokai"
             name="code-editor"
             onChange={handleCodeChange}

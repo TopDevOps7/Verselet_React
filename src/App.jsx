@@ -1,6 +1,7 @@
 import React, {  useEffect } from "react";
 import Navbar from "./components/Navbar";
 import ProtectedRoute from "./components/Protected";
+import ProtectedOrgRoute from "./components/ProtectedOrg";
 import PublicRoute from "./components/Public";
 import {
   BrowserRouter as Router,
@@ -15,8 +16,11 @@ import Signup from "./pages/Auth/Signup";
 import ForgotPassword from "./pages/Auth/ForgotPassword";
 import ResetPassword from "./pages/Auth/ResetPassword";
 import NotFound from "./components/NotFound";
+import OrgLogin from "./pages/Organization/Login";
+import OrgRegister from "./pages/Organization/Register";
 // homepage
 import SideNavbar from "./pages/Homepage/SideNavbar";
+import OrgSideNavbar from "./pages/Organization/OrgSideNavbar";
 import Homepage from "./pages/Homepage/Home";
 import Profile from "./pages/Homepage/Profile";
 import Code from "./pages/Homepage/Codepage/CodeEditor";
@@ -29,12 +33,17 @@ import Leaderboard from "./pages/Homepage/Leaderboard";
 import WaitingRoom from "./pages/Game/WaitingRoom";
 import Dashboard from "./pages/Game/Dashboard";
 import FinalScore from "./pages/Game/FinalScore";
+// organization
+import OrgHome from "./pages/Organization/Home";
+import OrgProfile from "./pages/Organization/OrgProfile";
+import OrgSettings from "./pages/Organization/OrgSettings";
+import OrgEvent from "./pages/Organization/OrgEvent";
 
 import { useAuth } from "./context/auth";
 import Logout from "./components/Logout";
 
 function App() {
-  const { authenticated, setAuthenticated } = useAuth();
+  const { authenticated, setAuthenticated, usertype, setUsertype } = useAuth();
 
   useEffect(() => {
     const token = localStorage.getItem("verselet_token");
@@ -47,25 +56,42 @@ function App() {
   return (
     <Router>
       <>
-        { authenticated ? ( <SideNavbar /> ) : (<Navbar />) }
+        { authenticated ? ( usertype === "user" ? <SideNavbar /> : <OrgSideNavbar /> ) : (<Navbar />) }
         <Routes>
-          <Route path="/" element={ authenticated ? ( <Homepage /> ) : (<Home />) } />
-          <Route element={<ProtectedRoute/>}>
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/code" element={<Code />} />
-            <Route path="/notifications" element={<Notifications />} />
-            <Route path="/settings" element={<Settings />} />
-            <Route path="/search" element={<Searchpage />} />
-            <Route path="/leaderboard" element={<Leaderboard />} />
-            <Route path="/waiting" element={<WaitingRoom />} />
-            <Route path="/game" element={<Dashboard />} />
-            <Route path="/scores" element={<FinalScore />} />
-            <Route path="/user/:username" element={<OthersProfile />} />
-            <Route path="/logout" element={<Logout />} />
-          </Route>
+          { authenticated ? ( usertype === "user" ? 
+          ( <>
+              <Route path="/" element={ <Homepage /> } />
+              <Route element={<ProtectedRoute/>}>
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/code" element={<Code />} />
+                <Route path="/notifications" element={<Notifications />} />
+                <Route path="/settings" element={<Settings />} />
+                <Route path="/search" element={<Searchpage />} />
+                <Route path="/leaderboard" element={<Leaderboard />} />
+                <Route path="/waiting" element={<WaitingRoom />} />
+                <Route path="/game" element={<Dashboard />} />
+                <Route path="/scores" element={<FinalScore />} />
+                <Route path="/user/:username" element={<OthersProfile />} />
+                <Route path="/logout" element={<Logout />} />
+              </Route>
+            </>
+          ) :
+          ( <>
+            <Route path="/" element={ <Navigate to="/organization/" /> } />
+            <Route path="/organization/" element={<OrgHome />} />
+            <Route element={<ProtectedOrgRoute/>}>
+              <Route path="/organization/profile" element={<OrgProfile />} />
+              <Route path="/organization/settings" element={<OrgSettings />} />
+              <Route path="/organization/event" element={<OrgEvent />} />
+              <Route path="/logout" element={<Logout />} />
+            </Route>
+            </>
+          ) ) : <Route path="/" element={ <Home /> } />}
           <Route element={<PublicRoute/>}>
             <Route path="/signin" element={<Signin />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/organization/login" element={<OrgLogin />} />
+            <Route path="/organization/register" element={<OrgRegister />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/logout" element={<Navigate to="/" />} />

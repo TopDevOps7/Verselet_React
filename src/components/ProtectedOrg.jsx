@@ -1,25 +1,25 @@
 import React, {useEffect} from "react";
 import { Navigate, Outlet } from 'react-router-dom';
-import Footer from "../components/Footer";
+import Footer from "./Footer";
 import { useAuth } from "../context/auth";
 
-function ProtectedRoute() {
+function ProtectedOrgRoute() {
     const { authenticated, setAuthenticated, usertype, setUsertype, loading } = useAuth();
 
     useEffect(() => {
         const token = localStorage.getItem("verselet_token");
         const user = localStorage.getItem("verselet_user");
         const usertype = localStorage.getItem("verselet_usertype");
-        if (token && user && usertype === "user") {
+        if (token && user && usertype !== "user") {
           setAuthenticated(true);
-          setUsertype("user");
+          setUsertype("organization");
         }
       }, [authenticated]);
 
     if (loading) return null;
-    return authenticated && usertype === "user" ? 
+    return authenticated && usertype !== "user" ? 
     (
-    <div className="sm:ml-64 h-screen dark:bg-gray-900 flex flex-col justify-between homedashboard">        
+    <div className="sm:ml-64 h-screen dark:bg-gray-900 flex flex-col justify-between orprt">        
       <Outlet />
       <div className="bg-gray-400">
           <Footer />
@@ -29,4 +29,4 @@ function ProtectedRoute() {
     : <Navigate to="/" />;
 };
 
-export default ProtectedRoute;
+export default ProtectedOrgRoute;

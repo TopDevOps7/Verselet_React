@@ -5,17 +5,20 @@ const AuthContext = React.createContext();
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
+  const [usertype, setUsertype] = useState("user");
   const [loading, setLoading] = useState(true);
   const [authenticated, setAuthenticated] = useState(false);
 
   React.useEffect(() => {
     setLoading(true);
-    const token = localStorage.getItem("verselet_token");
-    const user = localStorage.getItem("verselet_user");
+    const token_ = localStorage.getItem("verselet_token");
+    const user_ = localStorage.getItem("verselet_user");
+    const usertype_ = localStorage.getItem("verselet_usertype");
     try {
-      if (token !== undefined && user !== undefined && token && user) {
-        setToken(token);
-        setUser(JSON.parse(user));
+      if (token_ !== undefined && user_ !== undefined && token_ && user_) {
+        setToken(token_);
+        setUser(JSON.parse(user_));
+        setUsertype(usertype_);
         setAuthenticated(true);
       }
       setLoading(false);
@@ -31,6 +34,8 @@ export function AuthProvider({ children }) {
       value={{
         user,
         setUser,
+        usertype,
+        setUsertype,
         token,
         setToken,
         loading,

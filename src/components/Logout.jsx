@@ -3,15 +3,17 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/auth";
 
 function Logout() {
-  const { setAuthenticated, setToken, setUser, authenticated } = useAuth();
+  const { setAuthenticated, setToken, setUser, setUsertype, authenticated } = useAuth();
   const navigate = useNavigate();
   React.useEffect(() => {
     if (authenticated) {
       setAuthenticated(false);
       setToken(null);
       setUser(null);
+      setUsertype("user");
       localStorage.removeItem("verselet_token");
       localStorage.removeItem("verselet_user");
+      localStorage.setItem("verselet_usertype", "user");
       navigate("/");
     } else {
       navigate("/");
@@ -25,8 +27,10 @@ function Logout() {
       setAuthenticated(false);
       setToken(null);
       setUser(null);
+      setUsertype("user");
       localStorage.removeItem("verselet_token");
       localStorage.removeItem("verselet_user");
+      localStorage.setItem("verselet_usertype", "user");
       navigate("/");
     }
   };

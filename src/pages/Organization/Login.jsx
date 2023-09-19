@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/auth";
 import { useNavigate } from "react-router-dom";
-import useSignIn from "../../components/hooks/user/useSignIn";
+import useLogin from "../../components/hooks/organization/useLogin";
 
-function Signin() {
-  const [email, setEmail] = useState("");
+function OrgLogin() {
+  const [orgName, setOrgName] = useState("");
   const [password, setPassword] = useState("");
-  const { error, success, handleSignIn } = useSignIn();
+  const { error, success, handleLogin } = useLogin();
   const { authenticated } = useAuth();
   const navigate = useNavigate();
 
@@ -19,7 +19,7 @@ function Signin() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    handleSignIn(email, password);
+    handleLogin(orgName, password);
   };
 
   return (
@@ -28,24 +28,24 @@ function Signin() {
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-xl xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-10">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-              Sign in to your account
+              Login to your organization account
             </h1>
             <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
               <div>
                 <label
-                  htmlFor="email"
+                  htmlFor="orgName"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  Your email
+                  Organization Name
                 </label>
                 <input
-                  type="email"
-                  name="email"
-                  id="email"
+                  type="text"
+                  name="orgName"
+                  id="orgName"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  placeholder="name@company.com"
-                  value={email}
-                  onChange={(event) => setEmail(event.target.value)}
+                  placeholder="Organization"
+                  value={orgName}
+                  onChange={(event) => setOrgName(event.target.value)}
                   required=""
                 />
               </div>
@@ -117,34 +117,28 @@ function Signin() {
               )}
               {/* success message */}
 
-              <div className="flex items-center justify-between">
+              {/* <div className="flex items-center justify-between">
                 <Link
                   to="/forgot-password"
                   className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
                 >
                   Forgot password?
                 </Link>
-                <Link
-                  to="/organization/login"
-                  className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
-                >
-                  Login to Organization
-                </Link>
-              </div>
+              </div> */}
               <button
                 type="submit"
                 className="w-full text-white bg-purple-600 hover:bg-purple-700 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-800"
               >
-                Sign in
+                Login
               </button>
 
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                Don’t have an account yet?{" "}
+                Don’t have an organization account yet?{" "}
                 <Link
-                  to="/signup"
+                  to="/organization/register"
                   className="font-medium text-primary-600 hover:underline dark:text-primary-500"
                 >
-                  Sign up
+                  Register new organization
                 </Link>
               </p>
             </form>
@@ -155,4 +149,4 @@ function Signin() {
   );
 }
 
-export default Signin;
+export default OrgLogin;

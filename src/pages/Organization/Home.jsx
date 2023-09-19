@@ -7,7 +7,7 @@ import userAuthApi from "../../context/api/userAuthApi";
 import userProfileApi from "../../context/api/userProfileApi";
 import Footer from "../../components/Footer";
 
-function Home() {
+function OrgHome() {
   const [showModal, setShowModal] = useState(false);
   const { user, token } = useAuth();  
   const [searchName, setSearchName] = useState("");
@@ -34,14 +34,8 @@ function Home() {
     }
   };
 
-  const deleteUserItem = async (username) => {
-    setUserList((tempUserList) =>
-    tempUserList.filter((t_user) => t_user.username !== username)
-    );
-  };
-
   return (
-    <div className="sm:ml-64 h-screen dark:bg-gray-900 flex flex-col justify-between home">
+    <div className="sm:ml-64 h-screen dark:bg-gray-900 flex flex-col justify-between orghome">
       <ToastContainer
         position="top-right"
         autoClose={5000}
@@ -60,16 +54,21 @@ function Home() {
               <div className="py-8 px-4 mx-auto sm:py-16 lg:px-6">
                 <div className="mx-auto  text-center">
                   <h2 className="mb-2 text-4xl tracking-tight font-extrabold leading-tight text-gray-900 dark:text-white">
-                    Host a game
+                    Create an event
                   </h2>
                   <p className="mb-2 font-light text-gray-500 dark:text-gray-400 md:text-lg">
-                    hi, pruthvi, you can host a game and invite your friends!
+                    hi, {user.username}, you can create an event here!
                   </p>
                   <button
                     className="text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"
                     onClick={() => setShowModal(true)}
                   >
-                    host game
+                    Create
+                  </button>
+                  <button
+                    className="text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"
+                  >
+                    <Link to="/organization/profile">View Profile</Link>                    
                   </button>
                 </div>
               </div>
@@ -80,7 +79,7 @@ function Home() {
               <div className="py-8 px-4 mx-auto sm:py-16 lg:px-6">
                 <div className="mx-auto text-center">
                   <h2 className="mb-9 text-4xl tracking-tight font-extrabold leading-tight text-gray-900 dark:text-white">
-                    Join a game and play with friends!
+                    Search your events
                   </h2>
 
                   <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
@@ -133,12 +132,6 @@ function Home() {
                     userList.map((uItem, uIndex) => (
                       <div key={uItem.username} className="block w-full p-3 pl-10 text-sm border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500  dark:text-white">
                         {uItem.username}
-                        <button 
-                          className="ms-3 dark:text-white float-right bottom-1.5 focus:outline-none focus:ring-blue-300 font-light text-sm px-3 py-1"
-                          onClick={() => deleteUserItem(uItem.username)} 
-                        >
-                          &#x2715;
-                        </button>
                         <button
                           className="ms-3 text-white float-right right-1.5 bottom-1.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-light rounded-lg text-sm px-3 py-1 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                         >
@@ -180,7 +173,7 @@ function Home() {
               <div className="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
                 <div className="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
                   <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                    Create a game
+                    Create an event
                   </h3>
                   <button
                     type="button"
@@ -211,13 +204,13 @@ function Home() {
                         htmlFor="category"
                         className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                       >
-                        Game Visibility
+                        Event Visibility
                       </label>
                       <select
                         id="category"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                       >
-                        <option selected="">Choose game visibility </option>
+                        <option selected="">Choose Event visibility </option>
                         <option value="TV">Private</option>
                         <option value="PC">Public</option>
                       </select>
@@ -288,4 +281,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default OrgHome;

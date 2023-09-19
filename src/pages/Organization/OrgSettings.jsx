@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-function Settings() {
+function OrgSettings() {
   const [showModal, setShowModal] = useState(false);
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -48,53 +48,37 @@ function Settings() {
             <div className="grid gap-4 mb-4 sm:grid-cols-2 sm:gap-6 sm:mb-5">
               <div className="sm:col-span-2">
                 <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">
-                  Account Settings
+                  Organization Settings
                 </h2>
                 <label
-                  htmlFor="name"
+                  htmlFor="orgName"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  Username
+                  Organization Name
                 </label>
                 <input
                   type="text"
-                  name="name"
-                  id="name"
+                  name="orgName"
+                  id="orgName"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   value="verselet"
                   disabled
                 />
               </div>
 
-              <div className="w-full">
+              <div className="w-full sm:col-span-2">
                 <label
-                  htmlFor="email"
+                  htmlFor="description"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  Email
+                  Description
                 </label>
                 <input
-                  type="email"
-                  name="email"
-                  id="email"
+                  type="description"
+                  name="description"
+                  id="description"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   value="verselet@company.com"
-                  disabled
-                />
-              </div>
-              <div className="w-full">
-                <label
-                  htmlFor="brand"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Date of Birth
-                </label>
-                <input
-                  type="text"
-                  name="brand"
-                  id="brand"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  value="10/10/2023"
                   disabled
                 />
               </div>
@@ -176,82 +160,6 @@ function Settings() {
                   onChange={handleProfilePictureChange}
                 />
               </label>
-            </div>
-            <div className="grid gap-4 mt-4 sm:grid-cols-2 sm:gap-6 sm:mt-8">
-              <div className="sm:col-span-2">
-                <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-                  Social Media Settings
-                </h2>
-              </div>
-
-              <div className="w-full">
-                <label
-                  htmlFor="email"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Twitter
-                </label>
-                <input
-                  type="text"
-                  name="twitter"
-                  id="twitter"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  value={twitter}
-                  onChange={(e) => setTwitter(e.target.value)}
-                  placeholder="username"
-                />
-              </div>
-              <div className="w-full">
-                <label
-                  htmlFor="email"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Instagram
-                </label>
-                <input
-                  type="text"
-                  name="twitter"
-                  id="twitter"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  value={instagram}
-                  onChange={(e) => setInstagram(e.target.value)}
-                  placeholder="username"
-                />
-              </div>
-              <div className="w-full">
-                <label
-                  htmlFor="email"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  GitHub
-                </label>
-                <input
-                  type="text"
-                  name="twitter"
-                  id="twitter"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  value={github}
-                  onChange={(e) => setGithub(e.target.value)}
-                  placeholder="username"
-                />
-              </div>
-              <div className="w-full">
-                <label
-                  htmlFor="email"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Facebook
-                </label>
-                <input
-                  type="text"
-                  name="twitter"
-                  id="twitter"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  value={facebook}
-                  onChange={(e) => setFacebook(e.target.value)}
-                  placeholder="username"
-                />
-              </div>
             </div>
 
             <div className="mt-8">
@@ -350,4 +258,4 @@ function Settings() {
   );
 }
 
-export default Settings;
+export default OrgSettings;
