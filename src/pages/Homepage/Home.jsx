@@ -172,7 +172,7 @@ function Home() {
         <>
           <div
             id="defaultModal"
-            tabindex="-1"
+            tabIndex="-1"
             aria-hidden="true"
             className="h-screen flex items-center overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center w-full md:inset-0 md:h-full"
           >
@@ -217,7 +217,7 @@ function Home() {
                         id="category"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                       >
-                        <option selected="">Choose game visibility </option>
+                        <option defaultValue="">Choose game visibility </option>
                         <option value="TV">Private</option>
                         <option value="PC">Public</option>
                       </select>
@@ -252,7 +252,7 @@ function Home() {
                         id="category"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                       >
-                        <option selected="">Select category</option>
+                        <option defaultValue="">Select category</option>
                         <option value="TV">Easy</option>
                         <option value="PC">Medium</option>
                         <option value="GA">Difficult</option>

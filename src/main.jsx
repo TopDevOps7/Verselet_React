@@ -5,9 +5,9 @@ import "./index.css";
 import { AuthProvider } from "./context/auth";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
+  <React.Fragment>
     <AuthProvider>
       <App />
     </AuthProvider>
-  </React.StrictMode>
+  </React.Fragment>
 );
